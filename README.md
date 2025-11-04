@@ -1,69 +1,73 @@
-# The `my-package` Package
-<div align="center">Version 0.1.0</div>
+# Lebenslauf
 
-A short description about the project and/or client.
+Lebenslauf is a component-first Typst toolkit for building polished CVs and resumes.  
+Instead of relying on TOML metadata, you compose pages directly in Typst using a small set of reusable helpers.
 
-## Template adaptation checklist
-
-- [ ] Fill out `README.md`
-  - Change the `my-package` package name, including code snippets
-  - Check section contents and/or delete sections that don't apply
-- [ ] Check and/or replace `LICENSE` by something that suits your needs
-- [ ] Fill out `typst.toml`
-  - See also the [typst/packages README](https://github.com/typst/packages/?tab=readme-ov-file#package-format)
-- [ ] Adapt Repository URLs in `CHANGELOG.md`
-  - Consider only committing that file with your first release, or removing the "Initial Release" part in the beginning
-- [ ] Adapt or deactivate the release workflow in `.github/workflows/release.yml`
-  - to deactivate it, delete that file or remove/comment out lines 2-4 (`on:` and following)
-  - to use the workflow
-    - [ ] check the values under `env:`, particularly `REGISTRY_REPO`
-    - [ ] if you don't have one, [create a fine-grained personal access token](https://github.com/settings/tokens?type=beta) with [only Contents permission](https://stackoverflow.com/a/75116350/371191) for the `REGISTRY_REPO`
-    - [ ] on this repo, create a secret `REGISTRY_TOKEN` (at `https://github.com/[user]/[repo]/settings/secrets/actions`) that contains the so created token
-
-    if configured correctly, whenever you create a tag `v...`, your package will be pushed onto a branch on the `REGISTRY_REPO`, from which you can then create a pull request against [typst/packages](https://github.com/typst/packages/)
-- [ ] remove/replace the example test case
-- [ ] (add your actual code, docs and tests)
-- [ ] remove this section from the README
+## Highlights
+- Flexible building blocks for headers, entries, skill lists, and photo layouts.
+- Theme registry (professional, modern, everforest) that powers colors, typography, and spacing.
+- Page helper `cv-page` with sane defaults for A4 documents.
+- Example templates in `template/advanced.typ` and `template/main.typ` that you can clone or modify.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on the typst web app. Perhaps a short code example on importing the package and a very simple teaser usage.
+```typst
+#import "@preview/lebenslauf:0.1.0": *
 
-```typ
-#import "@preview/my-package:0.1.0": *
+#let theme = themes.professional
 
-#show: my-show-rule.with()
-#my-func()
+#show: cv-page.with(theme: theme)
+
+#cv-two-columns(
+  [
+    #cv-photo("photo.jpg", theme: theme, width: 3.5cm)
+    #v(1em)
+    #cv-header(name: "Jie Wang", theme: theme)
+    #cv-sidebar-contact(
+      email: "hi@example.com",
+      phone: "+49 123 456789",
+      location: "Berlin",
+      theme: theme,
+    )
+  ],
+  [
+    #cv-section("Berufserfahrung", theme: theme)[
+      #cv-entry(
+        title: "Senior Software Engineer",
+        subtitle: "TechCorp GmbH",
+        date: "2022 – heute",
+        description: (
+          "Leitung eines 6-köpfigen Teams",
+          "Skalierung einer Microservice-Plattform",
+        ),
+        theme: theme,
+      )
+    ]
+  ],
+)
 ```
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./thumbnail-dark.svg">
-  <img src="./thumbnail-light.svg">
-</picture>
+## Templates
 
-### Installation
+- `template/advanced.typ` – two-column layout mirroring the project’s intended usage.
+- `template/main.typ` – single-column example with the same component vocabulary.
 
-A step by step guide that will tell you how to get the development environment up and running. This should explain how to clone the repo and where to (maybe a link to the typst documentation on it), along with any pre-requisite software and installation steps.
+Compile templates (note the root flag because the template lives in a subdirectory):
 
-```
-$ First step
-$ Another step
-$ Final step
+```bash
+typst compile --root . template/advanced.typ
 ```
 
-## Usage
+## Developing
 
-A more in-depth description of usage. Any template arguments? A complicated example that showcases most if not all of the functions the package provides? This is also an excellent place to signpost the manual.
+- Components live in `src/components.typ`.
+- Utility functions (icons, ratings, two-column lists, …) live in `src/utils.typ`.
+- Themes reside in `src/themes`.
 
-```typ
-#import "@preview/my-package:0.1.0": *
+Run ad-hoc previews with:
 
-#let my-complicated-example = ...
+```bash
+typst compile --root . tests/unit-photo/test.typ
 ```
 
-## Additional Documentation and Acknowledgments
-
-* Project folder on server:
-* Confluence link:
-* Asana board:
-* etc...
+Happy typesetting!***
