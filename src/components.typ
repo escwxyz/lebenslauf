@@ -178,7 +178,7 @@
       }
       #if technologies != () {
         linebreak()
-        text(fill: theme.colors.secondary, technologies.join(", "))
+        text(fill: theme.colors.secondary, technologies.join(", "), size: 8pt)
       }
     ],
 
@@ -190,7 +190,7 @@
   )
 
   if description != none {
-    v(0.3em)
+    v(0.1em)
     if type(description) == array {
       list(..description.map(item => [#item]))
     } else {
@@ -198,7 +198,7 @@
     }
   }
 
-  v(0.8em)
+  v(0.5em)
 }
 
 // Skills component with categories
