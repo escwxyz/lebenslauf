@@ -49,13 +49,13 @@ Instead of relying on TOML metadata, you compose pages directly in Typst using a
 
 ## Templates
 
-- `template/advanced.typ` – two-column layout mirroring the project’s intended usage.
-- `template/main.typ` – single-column example with the same component vocabulary.
+- `template/letter.typ` – Motivation letter template in German style.
+- `template/cv_en.typ` – Two-column CV example with the same component vocabulary.
 
 Compile templates (note the root flag because the template lives in a subdirectory):
 
 ```bash
-typst compile --root . template/advanced.typ
+typst compile --root . template/cv_en.typ
 ```
 
 ## Developing
