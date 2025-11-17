@@ -41,3 +41,11 @@
 #let cv-photo = cv-photo
 #let cv-two-columns = cv-two-columns
 #let cv-page = cv-page
+
+// Motivation letter (Anschreiben) components
+#let letter-sender = letter-sender
+#let letter-date = letter-date
+#let letter-recipient = letter-recipient
+#let letter-subject = letter-subject
+#let letter-body = letter-body
+#let letter-signature = letter-signature

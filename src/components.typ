@@ -170,11 +170,10 @@
     columns: (1fr, auto),
 
     [
-
       #if url != none {
-        link(url)[#text(weight: "bold", size: 11pt, name)]
+        link(url)[#text(weight: "bold", size: 10pt, name)]
       } else {
-        text(weight: "bold", size: 11pt, name)
+        text(weight: "bold", size: 10pt, name)
       }
       #if technologies != () {
         linebreak()
@@ -376,3 +375,136 @@
 
   body
 }
+
+// ============================================================================
+// Motivation letter (Anschreiben) components
+// ============================================================================
+
+// Sender block at the top of the letter (left aligned)
+#let letter-sender(
+  name: "",
+  street: none,
+  postal-code: none,
+  city: none,
+  email: none,
+  phone: none,
+  theme: (:),
+) = {
+  align(left)[
+    // Name highlighted
+    #if name != "" {
+      text(weight: "bold", size: 12pt, fill: theme.colors.primary, name)
+      linebreak()
+    }
+
+    // Address lines
+    #if street != none {
+      text(street)
+      linebreak()
+    }
+
+    #if postal-code != none or city != none {
+      text(
+        if postal-code != none { postal-code + " " } else { "" } + if city != none { city } else { "" },
+      )
+      linebreak()
+    }
+
+    // Contact lines
+    #if email != none {
+      text(style: "italic", fill: theme.colors.secondary)[E-Mail: #email]
+      linebreak()
+    }
+
+    #if phone != none {
+      text(style: "italic", fill: theme.colors.secondary)[Telefon: #phone]
+      linebreak()
+    }
+  ]
+}
+
+// Date line, aligned to the right (e.g. "Hamburg, 3. März 2023")
+#let letter-date(
+  place-and-date: "",
+  theme: (:),
+) = {
+  v(1em)
+  align(right)[
+    #text(style: "italic", fill: theme.colors.secondary, place-and-date)
+  ]
+  v(1.5em)
+}
+
+// Recipient address block
+#let letter-recipient(
+  company: "",
+  person: none,
+  street: none,
+  postal-code: none,
+  city: none,
+  theme: (:),
+) = {
+  v(1em)
+  align(left)[
+    #if company != "" {
+      text(weight: "bold", company)
+      linebreak()
+    }
+
+    #if person != none {
+      text(person)
+      linebreak()
+    }
+
+    #if street != none {
+      text(street)
+      linebreak()
+    }
+
+    #if postal-code != none or city != none {
+      text(
+        if postal-code != none { postal-code + " " } else { "" } + if city != none { city } else { "" },
+      )
+    }
+  ]
+  v(1.5em)
+}
+
+// Subject line, e.g. "Bewerbung für / als ..."
+#let letter-subject(
+  title: "",
+  theme: (:),
+) = {
+  v(1.5em)
+  text(weight: "bold", size: 13pt, fill: theme.colors.primary, title)
+  v(1em)
+}
+
+// Letter body – pass the paragraphs as content
+#let letter-body(body) = {
+  set par(justify: true)
+  body
+}
+
+// Signature block with optional signature image
+#let letter-signature(
+  closing: "Mit freundlichen Grüßen",
+  name: "",
+  signature-image: none,
+  theme: (:),
+  image-width: 4cm,
+) = {
+  v(1.5em)
+  text(closing)
+  v(1.5em)
+
+  // Optional handwritten signature image
+  if signature-image != none {
+    image(signature-image, width: image-width)
+    v(0.5em)
+  }
+
+  // Printed name
+  text(weight: "bold", fill: theme.colors.primary, name)
+}
+
