@@ -1,17 +1,24 @@
 # for a description of available keys, see https://github.com/typst/packages/?tab=readme-ov-file#package-format
 
 [package]
-name = ""
+name = "lebenslauf"
 version = "0.1.0"
 entrypoint = "src/lib.typ"
-authors = []
-license = "Unlicense"
-description = ""
-homepage = ""
-repository = ""
-keywords = []
-categories = []
-disciplines = []
+authors = ["Jie Wang <hi@jiewa.ng>"]
+license = "MIT"
+description = "A modern, customizable Typst package for creating German CVs (Lebenslauf) and motivation letters"
+homepage = "https://github.com/escwxyz/lebenslauf"
+repository = "https://github.com/escwxyz/lebenslauf"
+keywords = [
+  "cv",
+  "resume",
+  "lebenslauf",
+  "german",
+  "template",
+  "motivation-letter",
+]
+categories = ["cv"]
+disciplines = ["business"]
 # compiler = ""
 exclude = [
   ".github",
