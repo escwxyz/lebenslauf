@@ -572,13 +572,12 @@
   text(closing)
   v(1.5em)
 
+  // Printed name
+  text(weight: "bold", fill: theme.colors.primary, name)
   // Optional handwritten signature image
   if signature-image != none {
     image(signature-image, width: image-width)
     v(0.5em)
   }
-
-  // Printed name
-  text(weight: "bold", fill: theme.colors.primary, name)
 }
 
