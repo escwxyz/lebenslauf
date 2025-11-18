@@ -201,22 +201,96 @@
 }
 
 // Skills component with categories
+// mode:
+//  - "text"   : only text (default, backwards compatible)
+//  - "bar"    : quantified progress bars
+//  - "rating" : quantified stars or dots (controlled by rating-style)
 #let cv-skills(
   skills: (:),
   theme: (:),
   compact: false,
+  mode: "text",
+  rating-style: "stars", // "stars" or "dots"
+  max-level: 5,
 ) = {
+  // Helper: normalize each item to a (name, level) pair.
+  // Supports:
+  //  - "React"                      -> (name: "React", level: max-level)
+  //  - (name: "React", level: 4)    -> (name: "React", level: 4)
+  //  - ("React", 4)                 -> (name: "React", level: 4)
+  let normalize-items = items => {
+    items.map(item => {
+      if type(item) == str {
+        (name: item, level: max-level)
+      } else if "name" in item and "level" in item {
+        item
+      } else if type(item) == array and item.len() == 2 {
+        (name: item.at(0), level: item.at(1))
+      } else {
+        // Fallback: try to stringify
+        (name: str(item), level: max-level)
+      }
+    })
+  }
+
+  let accent = if "colors" in theme and "accent" in theme.colors {
+    theme.colors.accent
+  } else if "primary" in theme.colors {
+    theme.colors.primary
+  } else {
+    rgb("#1e88e5")
+  }
+
+  let rating-filled-col = accent
+  let rating-empty-col = accent.lighten(70%)
+
   block[
     #set par(justify: false)
     #for (category, items) in skills {
-      if compact {
-        text(weight: "semibold", size: 9pt, category + ":")
-        linebreak()
-        text(size: 9pt, items.join(", "))
+      if mode == "text" {
+        if compact {
+          text(weight: "semibold", size: 9pt, category + ":")
+          linebreak()
+          text(size: 9pt, items.join(", "))
+        } else {
+          text(weight: "semibold", category + ": ")
+          items.join(", ")
+        }
       } else {
-        text(weight: "semibold", category + ": ")
-        items.join(", ")
+        let normalized = normalize-items(items)
+
+        if compact {
+          text(weight: "semibold", size: 9pt, category)
+        } else {
+          text(weight: "semibold", category)
+        }
+        linebreak()
+
+        for skill in normalized {
+          grid(
+            columns: (auto, 1fr),
+            column-gutter: 0.4em,
+            [
+              - #text(size: 9pt, skill.name)
+            ],
+            align(right)[
+              #if mode == "bar" {
+                skill-bar(level: skill.level, max: max-level, width: 100%, color: accent)
+              } else if mode == "rating" {
+                rating(
+                  level: skill.level,
+                  max: max-level,
+                  style: rating-style,
+                  filled-color: rating-filled-col,
+                  empty-color: rating-empty-col,
+                )
+              }
+            ],
+          )
+          v(0.1em)
+        }
       }
+
       v(0.3em)
     }
   ]

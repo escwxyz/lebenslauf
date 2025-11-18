@@ -16,8 +16,6 @@
 )
 
 #let icon = icon
-#let skill-bar = skill-bar
-#let rating = rating
 #let tag = tag
 #let timeline-entry = timeline-entry
 #let section-divider = section-divider

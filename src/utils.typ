@@ -57,7 +57,7 @@
 // Rating display (stars or dots)
 #let rating(level: 3, max: 5, style: "stars", filled-color: rgb("#1e88e5"), empty-color: rgb("#e0e0e0")) = {
   let filled-icon = if style == "stars" { fa-star } else { fa-circle }
-  let empty-icon = if style == "stars" { fa-star-o } else { fa-circle-o }
+  let empty-icon = if style == "stars" { fa-star } else { fa-circle }
 
   let items = ()
   for i in range(max) {
@@ -68,7 +68,7 @@
     }
   }
 
-  items.join(h(0.2em))
+  items.join(h(0.1em))
 }
 
 // Tag/badge component
